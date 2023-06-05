@@ -2,15 +2,14 @@
 
 # ClamAV Prometheus Exporter
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/r3kzi/clamav-prometheus-exporter)](https://goreportcard.com/report/github.com/r3kzi/clamav-prometheus-exporter)
-[![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/r3kzi/clamav-prometheus-exporter/blob/master/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/liip/clamav-prometheus-exporter)](https://goreportcard.com/report/github.com/liip/clamav-prometheus-exporter)
+[![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/liip/clamav-prometheus-exporter/blob/master/LICENSE)
 
 Exports metrics from [ClamAV](https://www.clamav.net/) as Prometheus metrics.
 
 ## Currently exposed metrics
 
 - ClamAVBuildInfo
-- ClamAVDatabaseAge
 - ClamAVMemHeap
 - ClamAVMemMmap
 - ClamAVMemUsed
@@ -21,14 +20,12 @@ Exports metrics from [ClamAV](https://www.clamav.net/) as Prometheus metrics.
 - ClamAVThreadsLive
 - ClamAVThreadsMax
 - ClamAVUp
+- ClamAVDatabaseLastUpdateTimestamp
 
 ```
 # HELP clamav_build_info Shows ClamAV Build Info
 # TYPE clamav_build_info gauge
 clamav_build_info{clamav_version="0.102.4",database_version="26091"} 1
-# HELP clamav_database_age Shows ClamAV signature database age in seconds
-# TYPE clamav_database_age gauge
-clamav_database_age 447408.4671055
 # HELP clamav_mem_heap_bytes Shows heap memory usage in bytes
 # TYPE clamav_mem_heap_bytes gauge
 clamav_mem_heap_bytes 1.090783104e+06
@@ -59,6 +56,9 @@ clamav_threads_max 10
 # HELP clamav_up Shows UP Status
 # TYPE clamav_up gauge
 clamav_up 1
+# HELP clamav_database_last_update_timestamp Shows Shows ClamAV signature database last update timestamp in seconds
+# TYPE clamav_database_last_update_timestamp gauge
+clamav_database_last_update_timestamp 1685954217.4671055
 ```
 
 ## Installation
@@ -66,10 +66,10 @@ clamav_up 1
 ClamAV Prometheus Exporter requires a [supported release of Go](https://golang.org/doc/devel/release.html#policy).
 
 ```shell
-$ go get -u github.com/r3kzi/clamav-prometheus-exporter
+$ go get -u github.com/liip/clamav-prometheus-exporter
 ```
 
-To find out where `clamav-prometheus-exporter` was installed you can run `$ go list -f {{.Target}} github.com/r3kzi/clamav-prometheus-exporter`.
+To find out where `clamav-prometheus-exporter` was installed you can run `$ go list -f {{.Target}} github.com/liip/clamav-prometheus-exporter`.
 
 For `clamav-prometheus-exporter` to be used globally add that directory to the `$PATH` environment setting.
 
@@ -101,21 +101,21 @@ Just scrape this, e.g.:
 
 ```yaml
 scrape_configs:
-  - job_name: 'clamav-prometheus-exporter'
+  - job_name: "clamav-prometheus-exporter"
     static_configs:
-      - targets: ['localhost:9810']
+      - targets: ["localhost:9810"]
 ```
 
 ## Release
 
 For a new version of the application, bump version in the [VERSION](./VERSION) file.
 
->[!NOTE]
->The version in the file must follow the [Semantic Version](https://semver.org/) pattern: `X.Y.Z`.
+> [!NOTE]
+> The version in the file must follow the [Semantic Version](https://semver.org/) pattern: `X.Y.Z`.
 
-This will trigger a  [GitHub Action](.github/workflows/docker-build.yml) that will be responsible
-for creating a new image on [DockerHub](https://hub.docker.com/r/rekzi/clamav-prometheus-exporter)
-in the pattern: `rekzi/clamav-prometheus-exporter:X.Y.Z`
+This will trigger a [GitHub Action](.github/workflows/docker-build.yml) that will be responsible
+for creating a new image on [DockerHub](https://hub.docker.com/r/sysadminliip/clamav-prometheus-exporter)
+in the pattern: `sysadminliip/clamav-prometheus-exporter:X.Y.Z`
 
 In addition, a Release will be created in the repository in addition to the version patch increment,
 following the pattern: `X.Y.Z-snapshot`

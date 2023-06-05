@@ -1,5 +1,5 @@
 OUT:=clamav-prometheus-exporter
-OWNER:=rekzi
+OWNER:=sysadminliip
 VERSION:=latest
 IMAGE:=$(OWNER)/$(OUT):$(VERSION)
 IMAGE_EXTRA_ARGS?=
