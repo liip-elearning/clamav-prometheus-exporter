@@ -23,8 +23,8 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/r3kzi/clamav-prometheus-exporter/pkg/clamav"
-	"github.com/r3kzi/clamav-prometheus-exporter/pkg/commands"
+	"github.com/liip/clamav-prometheus-exporter/pkg/clamav"
+	"github.com/liip/clamav-prometheus-exporter/pkg/commands"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -42,7 +42,7 @@ type Collector struct {
 	poolsUsed   *prometheus.Desc
 	poolsTotal  *prometheus.Desc
 	buildInfo   *prometheus.Desc
-	databaseAge *prometheus.Desc
+	databaseLastUpdateTimestamp *prometheus.Desc
 }
 
 //New creates a Collector struct
@@ -60,7 +60,7 @@ func New(client clamav.Client) *Collector {
 		poolsUsed:   prometheus.NewDesc("clamav_pools_used_bytes", "Shows memory used by memory pool allocator for the signature database in bytes", nil, nil),
 		poolsTotal:  prometheus.NewDesc("clamav_pools_total_bytes", "Shows total memory allocated by memory pool allocator for the signature database in bytes", nil, nil),
 		buildInfo:   prometheus.NewDesc("clamav_build_info", "Shows ClamAV Build Info", []string{"clamav_version", "database_version"}, nil),
-		databaseAge: prometheus.NewDesc("clamav_database_age", "Shows ClamAV signature database age in seconds", nil, nil),
+		databaseLastUpdateTimestamp: prometheus.NewDesc("clamav_database_last_update_timestamp", "Shows ClamAV signature database last update timestamp in seconds", nil, nil),
 	}
 }
 
@@ -77,7 +77,7 @@ func (collector *Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.poolsUsed
 	ch <- collector.poolsTotal
 	ch <- collector.buildInfo
-	ch <- collector.databaseAge
+	ch <- collector.databaseLastUpdateTimestamp
 }
 
 //Collect satisfies prometheus.Collector.Collect
@@ -146,9 +146,9 @@ func (collector *Collector) Collect(ch chan<- prometheus.Metric) {
 
 	if err != nil {
 		log.Error("Error parsing ClamAV date: ", err)
-		ch <- prometheus.MustNewConstMetric(collector.databaseAge, prometheus.GaugeValue, float64(time.Now().Unix()))
+		ch <- prometheus.MustNewConstMetric(collector.databaseLastUpdateTimestamp, prometheus.GaugeValue, float64(time.Now().Unix()))
 		return
 	}
 
-	ch <- prometheus.MustNewConstMetric(collector.databaseAge, prometheus.GaugeValue, float64(time.Since(builddate).Seconds()))
+	ch <- prometheus.MustNewConstMetric(collector.databaseLastUpdateTimestamp, prometheus.GaugeValue, float64(builddate.Unix()))
 }

@@ -16,7 +16,7 @@ package clamav
 
 import (
 	"fmt"
-	"github.com/r3kzi/clamav-prometheus-exporter/pkg/commands"
+	"github.com/liip/clamav-prometheus-exporter/pkg/commands"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net"

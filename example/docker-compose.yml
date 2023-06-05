@@ -15,7 +15,7 @@ services:
       - clamav-prometheus-exporter:clamav-prometheus-exporter
 
   clamav-prometheus-exporter:
-    image: rekzi/clamav-prometheus-exporter:latest
+    image: sysadminliip/clamav-prometheus-exporter:latest
     command:
       - '--clamav-address=clamav'
     ports:
