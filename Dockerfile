@@ -8,7 +8,7 @@ ENV CGO_ENABLED=0
 RUN go build -installsuffix 'static' -o clamav-prometheus-exporter .
 
 # Final stage: the running container.
-FROM docker.io/library/alpine:3.18 AS final
+FROM docker.io/library/alpine:3.22 AS final
 RUN apk add --update --no-cache ca-certificates
 WORKDIR /bin/
 
