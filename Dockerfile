@@ -1,5 +1,5 @@
 # First stage: build the executable.
-FROM docker.io/library/golang:1.21 as builder
+FROM docker.io/library/golang:1.25 as builder
 WORKDIR /go/src/github.com/liip/clamav-prometheus-exporter/
 COPY . .
 # CGO_ENABLED=0 to build a statically-linked executable
