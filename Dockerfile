@@ -10,7 +10,7 @@ RUN make build VERSION=$VERSION
 
 # Final stage: the running container.
 # Use a minimal image for running the application
-FROM docker.io/library/alpine:3.22 AS final
+FROM docker.io/library/alpine:3.23 AS final
 
 # Install necessary certificates
 RUN apk add --no-cache ca-certificates
