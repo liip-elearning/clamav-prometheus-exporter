@@ -1,5 +1,5 @@
 # First stage: build the executable.
-FROM docker.io/library/golang:1.25-alpine as builder
+FROM docker.io/library/golang:1.26-alpine as builder
 WORKDIR /go/src/github.com/liip/clamav-prometheus-exporter/
 COPY . .
 
